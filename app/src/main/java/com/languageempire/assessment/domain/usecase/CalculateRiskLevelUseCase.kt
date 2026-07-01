@@ -90,7 +90,7 @@ class CalculateRiskLevelUseCase @Inject constructor() {
     private companion object {
         const val ZERO_RATIO = 0.0
 
-        const val RED_UNASSIGNED_BOOKINGS_THRESHOLD = 20
+        const val RED_UNASSIGNED_BOOKINGS_THRESHOLD = 40
         const val RED_AVAILABLE_INTERPRETERS_THRESHOLD = 10
         const val RED_WAITING_TIME_MINUTES_THRESHOLD = 15
         const val RED_UNASSIGNED_RATIO_THRESHOLD = 0.20

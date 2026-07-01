@@ -19,7 +19,7 @@ class CalculateRiskLevelUseCaseTest {
         val result = useCase(
             totalRequests = 100,
             availableInterpreters = 25,
-            unassignedBookings = 20,
+            unassignedBookings = 40,
             averageWaitingTimeMinutes = 5
         )
 
@@ -60,6 +60,18 @@ class CalculateRiskLevelUseCaseTest {
         )
 
         Assert.assertEquals(RiskLevel.RED, result)
+    }
+
+    @Test
+    fun `returns amber for assessment Urdu example`() {
+        val result = useCase(
+            totalRequests = 280,
+            availableInterpreters = 25,
+            unassignedBookings = 22,
+            averageWaitingTimeMinutes = 12
+        )
+
+        Assert.assertEquals(RiskLevel.AMBER, result)
     }
 
     @Test
