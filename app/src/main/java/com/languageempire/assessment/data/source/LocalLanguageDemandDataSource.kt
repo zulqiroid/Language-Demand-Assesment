@@ -43,7 +43,7 @@ class LocalLanguageDemandDataSource @Inject constructor() : LanguageDemandDataSo
             LanguageDemandSnapshot(
                 id = "language_bsl_bsl",
                 languageName = "BSL",
-                bookingType = BookingType.VIDEO_REMOTE_INTERPRETING,
+                bookingType = BookingType.BSL,
                 totalRequests = 90,
                 availableInterpreters = 8,
                 unassignedBookings = 20,
