@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">Language Demand Assessment</string>
+    <string name="home_placeholder_title">Language Demand Assessment</string>
+
+    <string name="booking_type_face_to_face">Face-to-Face</string>
+    <string name="booking_type_telephone">Telephone</string>
+    <string name="booking_type_video_remote_interpreting">Video Remote Interpreting</string>
+    <string name="booking_type_bsl">BSL</string>
+    <string name="booking_type_translation">Translation</string>
+
+    <string name="risk_green">Green</string>
+    <string name="risk_amber">Amber</string>
+    <string name="risk_red">Red</string>
+
+    <string name="dashboard_error_generic">Unable to load dashboard data. Please try again.</string>
+
+    <string name="provider_a">Provider A</string>
+    <string name="provider_b">Provider B</string>
+
+    <string name="call_failure_timeout">The provider timed out.</string>
+    <string name="call_failure_unavailable">The provider is unavailable.</string>
+    <string name="call_failure_crashed">The provider crashed unexpectedly.</string>
+    <string name="call_failure_rejected">The call connection was rejected.</string>
+    <string name="call_failure_unknown">An unknown provider error occurred.</string>
+
+    <string name="call_failed_both_providers">Both providers failed. Please try again.</string>
+
+
+
+    <string name="dashboard_summary_title">Operational Summary</string>
+    <string name="dashboard_language_demand_title">High Demand Languages</string>
+    <string name="dashboard_booking_type_pressure_title">Booking Type Pressure</string>
+
+    <string name="label_total_requests">Total Requests</string>
+    <string name="label_total_bookings">Total Bookings</string>
+    <string name="label_available_interpreters">Available Interpreters</string>
+    <string name="label_unassigned_bookings">Unassigned Bookings</string>
+    <string name="label_average_waiting_time">Average Waiting Time</string>
+    <string name="label_red_risk_languages">Red Risk Languages</string>
+
+    <string name="minutes_short_format">%1$d min</string>
+
+    <string name="call_connectivity_title">Call Connectivity</string>
+    <string name="call_connectivity_subtitle">Provider A is attempted first. If it fails, Provider B is tried automatically.</string>
+    <string name="call_current_status">Current Status</string>
+    <string name="call_status_idle">Ready to start call connectivity test.</string>
+    <string name="call_status_connecting">Connecting with %1$s...</string>
+    <string name="call_status_retrying">%1$s failed. Retrying with %2$s.</string>
+    <string name="call_status_connected">Connected using %1$s.</string>
+    <string name="call_status_failed">Both providers failed. Please try again.</string>
+    <string name="call_primary_failure">Primary Failure</string>
+    <string name="call_backup_failure">Backup Failure</string>
+    <string name="call_start">Start Call</string>
+    <string name="call_in_progress">Connecting...</string>
+    <string name="call_reset">Reset</string>
+    <string name="call_try_again">Try Again</string>
+
+    <string name="dashboard_loading">Loading dashboard...</string>
+    <string name="dashboard_retry">Retry</string>
+    <string name="dashboard_empty_title">No dashboard data available.</string>
+    <string name="dashboard_screen_title">Language Demand Dashboard</string>
+
+
+    <string name="call_scenario_title">Provider Test Scenario</string>
+    <string name="call_provider_a_behavior">Provider A Behavior</string>
+    <string name="call_provider_b_behavior">Provider B Behavior</string>
+
+    <string name="provider_behavior_success">Success</string>
+    <string name="provider_behavior_unavailable">Unavailable</string>
+    <string name="provider_behavior_rejected">Rejected</string>
+    <string name="provider_behavior_crash">Crash</string>
+    <string name="provider_behavior_timeout">Timeout</string>
+</resources>
