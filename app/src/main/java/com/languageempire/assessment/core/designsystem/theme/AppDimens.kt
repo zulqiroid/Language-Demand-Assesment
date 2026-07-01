@@ -8,6 +8,8 @@ import androidx.compose.ui.unit.dp
 @Immutable
 data class AppDimens(
     val screenMaxWidth: Dp = 960.dp,
+    val wideScreenBreakpoint: Dp = 600.dp,
+    val stateCardMaxWidth: Dp = 440.dp,
     val cardMinHeight: Dp = 96.dp,
     val heroCardMinHeight: Dp = 148.dp,
     val riskBadgeMinWidth: Dp = 72.dp,

@@ -2,6 +2,7 @@ package com.languageempire.assessment.presentation.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -28,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.languageempire.assessment.R
@@ -41,6 +43,7 @@ import com.languageempire.assessment.presentation.call.CallProviderScenarioUiSta
 import com.languageempire.assessment.presentation.call.components.CallFailoverCard
 import com.languageempire.assessment.presentation.dashboard.components.BookingTypeStatsCard
 import com.languageempire.assessment.presentation.dashboard.components.DashboardHeroCard
+import com.languageempire.assessment.presentation.dashboard.components.DashboardStateCard
 import com.languageempire.assessment.presentation.dashboard.components.DashboardSummaryCard
 import com.languageempire.assessment.presentation.dashboard.components.LanguageDemandCard
 
@@ -159,18 +162,22 @@ private fun DashboardContent(
     onCallFailoverAction: (CallFailoverAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    BoxWithConstraints(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
+        val adaptiveHorizontalPadding = dashboardHorizontalPadding(
+            maxWidth = maxWidth
+        )
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .widthIn(max = MaterialTheme.appDimens.screenMaxWidth),
             contentPadding = PaddingValues(
-                start = MaterialTheme.appSpacing.large,
+                start = adaptiveHorizontalPadding,
                 top = MaterialTheme.appSpacing.large,
-                end = MaterialTheme.appSpacing.large,
+                end = adaptiveHorizontalPadding,
                 bottom = MaterialTheme.appSpacing.doubleExtraLarge
             ),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.large)
@@ -261,6 +268,17 @@ private fun DashboardContent(
 }
 
 @Composable
+private fun dashboardHorizontalPadding(
+    maxWidth: Dp
+): Dp {
+    return if (maxWidth >= MaterialTheme.appDimens.wideScreenBreakpoint) {
+        MaterialTheme.appSpacing.doubleExtraLarge
+    } else {
+        MaterialTheme.appSpacing.large
+    }
+}
+
+@Composable
 private fun DashboardLoadingContent(
     modifier: Modifier = Modifier
 ) {
@@ -270,18 +288,11 @@ private fun DashboardLoadingContent(
             .padding(MaterialTheme.appSpacing.large),
         contentAlignment = Alignment.Center
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.medium)
-        ) {
-            CircularProgressIndicator()
-
-            Text(
-                text = stringResource(id = R.string.dashboard_loading),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
+        DashboardStateCard(
+            titleRes = R.string.dashboard_loading_title,
+            subtitleRes = R.string.dashboard_loading_subtitle,
+            showProgress = true
+        )
     }
 }
 
@@ -297,28 +308,12 @@ private fun DashboardErrorContent(
             .padding(MaterialTheme.appSpacing.large),
         contentAlignment = Alignment.Center
     ) {
-        Column(
-            modifier = Modifier.widthIn(max = MaterialTheme.appDimens.screenMaxWidth),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.large)
-        ) {
-            Text(
-                text = stringResource(id = messageRes),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-
-            Button(
-                modifier = Modifier.heightIn(
-                    min = MaterialTheme.appDimens.buttonMinHeight
-                ),
-                onClick = onRetryClick
-            ) {
-                Text(
-                    text = stringResource(id = R.string.dashboard_retry)
-                )
-            }
-        }
+        DashboardStateCard(
+            titleRes = R.string.dashboard_error_title,
+            subtitleRes = messageRes,
+            actionLabelRes = R.string.dashboard_retry,
+            onActionClick = onRetryClick
+        )
     }
 }
 

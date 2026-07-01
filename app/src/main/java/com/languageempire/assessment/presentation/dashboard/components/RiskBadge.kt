@@ -11,6 +11,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.languageempire.assessment.core.designsystem.theme.AppColor
 import com.languageempire.assessment.core.designsystem.theme.appDimens
 import com.languageempire.assessment.core.designsystem.theme.appSpacing
@@ -41,7 +42,8 @@ fun RiskBadge(
             ),
             text = stringResource(id = riskLevel.labelRes),
             style = MaterialTheme.typography.labelMedium,
-            color = colors.contentColor
+            color = colors.contentColor,
+            textAlign = TextAlign.Center
         )
     }
 }

@@ -77,5 +77,23 @@
     <string name="dashboard_hero_subtitle">Monitor language pressure, shortage risk, booking demand, and call provider resilience.</string>
     <string name="dashboard_status_live">Live Prototype</string>
     <string name="dashboard_status_mock_data">Mock Operational Data</string>
+    <string name="label_unassigned_pressure">Unassigned Pressure</string>
+    <string name="percentage_format">%1$d%%</string>
+
+    <string name="call_provider_route_title">Provider Route</string>
+    <string name="call_provider_role_primary">Primary</string>
+    <string name="call_provider_role_backup">Backup</string>
+
+    <string name="call_provider_status_waiting">Waiting</string>
+    <string name="call_provider_status_active">Active</string>
+    <string name="call_provider_status_connected">Connected</string>
+    <string name="call_provider_status_failed">Failed</string>
+
+    <string name="call_status_details_title">Status Details</string>
+    <string name="call_status_reason">Reason</string>
+
+    <string name="dashboard_loading_title">Preparing dashboard</string>
+    <string name="dashboard_loading_subtitle">Loading language demand, booking pressure, and provider status.</string>
+    <string name="dashboard_error_title">Dashboard unavailable</string>
 
 </resources>

@@ -2,12 +2,13 @@ package com.languageempire.assessment.presentation.dashboard.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,22 +23,26 @@ fun DashboardSummaryCard(
     summary: DashboardSummaryUiModel,
     modifier: Modifier = Modifier
 ) {
-    Card(
+    ElevatedCard(
         modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+        shape = MaterialTheme.shapes.extraLarge
     ) {
         Column(
-            modifier = Modifier.padding(MaterialTheme.appSpacing.large),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.large)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    PaddingValues(
+                        horizontal = MaterialTheme.appSpacing.large,
+                        vertical = MaterialTheme.appSpacing.large
+                    )
+                ),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.medium)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.large)
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.medium)
             ) {
-                InfoMetric(
+                SummaryMetricTile(
                     modifier = Modifier.weight(1f),
                     data = InfoMetricData(
                         labelRes = R.string.label_total_requests,
@@ -45,7 +50,7 @@ fun DashboardSummaryCard(
                     )
                 )
 
-                InfoMetric(
+                SummaryMetricTile(
                     modifier = Modifier.weight(1f),
                     data = InfoMetricData(
                         labelRes = R.string.label_available_interpreters,
@@ -56,9 +61,9 @@ fun DashboardSummaryCard(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.large)
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.medium)
             ) {
-                InfoMetric(
+                SummaryMetricTile(
                     modifier = Modifier.weight(1f),
                     data = InfoMetricData(
                         labelRes = R.string.label_unassigned_bookings,
@@ -66,7 +71,7 @@ fun DashboardSummaryCard(
                     )
                 )
 
-                InfoMetric(
+                SummaryMetricTile(
                     modifier = Modifier.weight(1f),
                     data = InfoMetricData(
                         labelRes = R.string.label_average_waiting_time,
@@ -78,7 +83,7 @@ fun DashboardSummaryCard(
                 )
             }
 
-            InfoMetric(
+            SummaryMetricTile(
                 data = InfoMetricData(
                     labelRes = R.string.label_red_risk_languages,
                     value = summary.redRiskLanguagesCount.toString()
@@ -87,3 +92,24 @@ fun DashboardSummaryCard(
         }
     }
 }
+
+@Composable
+private fun SummaryMetricTile(
+    data: InfoMetricData,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(
+            alpha = METRIC_TILE_CONTAINER_ALPHA
+        )
+    ) {
+        InfoMetric(
+            modifier = Modifier.padding(MaterialTheme.appSpacing.medium),
+            data = data
+        )
+    }
+}
+
+private const val METRIC_TILE_CONTAINER_ALPHA = 0.45f
