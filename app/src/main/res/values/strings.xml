@@ -70,4 +70,12 @@
     <string name="provider_behavior_rejected">Rejected</string>
     <string name="provider_behavior_crash">Crash</string>
     <string name="provider_behavior_timeout">Timeout</string>
+
+    <string name="dashboard_top_bar_title">Language Demand</string>
+    <string name="dashboard_top_bar_subtitle">Operational intelligence dashboard</string>
+    <string name="dashboard_hero_title">Interpreter Demand Overview</string>
+    <string name="dashboard_hero_subtitle">Monitor language pressure, shortage risk, booking demand, and call provider resilience.</string>
+    <string name="dashboard_status_live">Live Prototype</string>
+    <string name="dashboard_status_mock_data">Mock Operational Data</string>
+
 </resources>

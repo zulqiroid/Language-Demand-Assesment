@@ -7,13 +7,14 @@ import androidx.compose.ui.unit.dp
 
 @Immutable
 data class AppDimens(
+    val screenMaxWidth: Dp = 960.dp,
     val cardMinHeight: Dp = 96.dp,
+    val heroCardMinHeight: Dp = 148.dp,
     val riskBadgeMinWidth: Dp = 72.dp,
     val buttonMinHeight: Dp = 48.dp,
     val iconSmall: Dp = 18.dp,
     val iconMedium: Dp = 24.dp,
-    val dividerThickness: Dp = 1.dp,
-    val screenMaxWidth: Dp = 900.dp
+    val dividerThickness: Dp = 1.dp
 )
 
 internal val LocalAppDimens = staticCompositionLocalOf {

@@ -4,23 +4,29 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -34,6 +40,7 @@ import com.languageempire.assessment.presentation.call.CallFailoverViewModel
 import com.languageempire.assessment.presentation.call.CallProviderScenarioUiState
 import com.languageempire.assessment.presentation.call.components.CallFailoverCard
 import com.languageempire.assessment.presentation.dashboard.components.BookingTypeStatsCard
+import com.languageempire.assessment.presentation.dashboard.components.DashboardHeroCard
 import com.languageempire.assessment.presentation.dashboard.components.DashboardSummaryCard
 import com.languageempire.assessment.presentation.dashboard.components.LanguageDemandCard
 
@@ -51,79 +58,127 @@ fun DashboardRoute(
         modifier = modifier,
         dashboardUiState = dashboardUiState,
         callFailoverUiState = callFailoverUiState,
-        onDashboardAction = dashboardViewModel::onAction,
-        onCallFailoverAction = callFailoverViewModel::onAction,
         callProviderScenarioUiState = callProviderScenarioUiState,
+        onDashboardAction = dashboardViewModel::onAction,
+        onCallFailoverAction = callFailoverViewModel::onAction
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DashboardScreen(
     dashboardUiState: DashboardUiState,
     callFailoverUiState: CallFailoverUiState,
+    callProviderScenarioUiState: CallProviderScenarioUiState,
     onDashboardAction: (DashboardAction) -> Unit,
     onCallFailoverAction: (CallFailoverAction) -> Unit,
-    callProviderScenarioUiState: CallProviderScenarioUiState,
     modifier: Modifier = Modifier
 ) {
-    Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        when (dashboardUiState) {
-            DashboardUiState.Loading -> {
-                DashboardLoadingContent()
-            }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-            is DashboardUiState.Error -> {
-                DashboardErrorContent(
-                    messageRes = dashboardUiState.messageRes,
-                    onRetryClick = {
-                        onDashboardAction(DashboardAction.Retry)
-                    }
-                )
-            }
+    Scaffold(
+        modifier = modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        contentWindowInsets = WindowInsets.safeDrawing,
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = {
+            DashboardTopBar(
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ) { innerPadding ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            when (dashboardUiState) {
+                DashboardUiState.Loading -> {
+                    DashboardLoadingContent()
+                }
 
-            is DashboardUiState.Content -> {
-                DashboardContent(
-                    dashboardContent = dashboardUiState,
-                    callFailoverUiState = callFailoverUiState,
-                    onCallFailoverAction = onCallFailoverAction,
-                    callProviderScenarioUiState = callProviderScenarioUiState,
-                )
+                is DashboardUiState.Error -> {
+                    DashboardErrorContent(
+                        messageRes = dashboardUiState.messageRes,
+                        onRetryClick = {
+                            onDashboardAction(DashboardAction.Retry)
+                        }
+                    )
+                }
+
+                is DashboardUiState.Content -> {
+                    DashboardContent(
+                        dashboardContent = dashboardUiState,
+                        callFailoverUiState = callFailoverUiState,
+                        callProviderScenarioUiState = callProviderScenarioUiState,
+                        onCallFailoverAction = onCallFailoverAction
+                    )
+                }
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DashboardTopBar(
+    scrollBehavior: TopAppBarScrollBehavior,
+    modifier: Modifier = Modifier
+) {
+    LargeTopAppBar(
+        modifier = modifier,
+        scrollBehavior = scrollBehavior,
+        title = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    MaterialTheme.appSpacing.extraSmall
+                )
+            ) {
+                Text(
+                    text = stringResource(id = R.string.dashboard_top_bar_title),
+                    style = MaterialTheme.typography.headlineMedium
+                )
+
+                Text(
+                    text = stringResource(id = R.string.dashboard_top_bar_subtitle),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    )
 }
 
 @Composable
 private fun DashboardContent(
     dashboardContent: DashboardUiState.Content,
     callFailoverUiState: CallFailoverUiState,
-    onCallFailoverAction: (CallFailoverAction) -> Unit,
     callProviderScenarioUiState: CallProviderScenarioUiState,
+    onCallFailoverAction: (CallFailoverAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    Box(
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        contentAlignment = Alignment.TopCenter
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
+                .fillMaxSize()
                 .widthIn(max = MaterialTheme.appDimens.screenMaxWidth),
-            contentPadding = PaddingValues(MaterialTheme.appSpacing.large),
+            contentPadding = PaddingValues(
+                start = MaterialTheme.appSpacing.large,
+                top = MaterialTheme.appSpacing.large,
+                end = MaterialTheme.appSpacing.large,
+                bottom = MaterialTheme.appSpacing.doubleExtraLarge
+            ),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.appSpacing.large)
         ) {
             item(
-                key = DashboardContentKey.ScreenTitle
+                key = DashboardContentKey.Hero
             ) {
-                Text(
-                    text = stringResource(id = R.string.dashboard_screen_title),
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
+                DashboardHeroCard()
             }
 
             item(
@@ -268,7 +323,7 @@ private fun DashboardErrorContent(
 }
 
 private enum class DashboardContentKey {
-    ScreenTitle,
+    Hero,
     SummaryHeader,
     SummaryCard,
     LanguageDemandHeader,
